@@ -1,7 +1,8 @@
 <template>
   <v-navigation-drawer
     v-model="drawer"
-    :clipped="$vuetify.breakpoint.lgAndUp"
+    :clipped="$vuetify.breakpoint.mdAndUp"
+    :mobile-break-point="960"
     app
   >
     <v-list dense>

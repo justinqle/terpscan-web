@@ -1,6 +1,6 @@
 <template>
   <v-app-bar
-    :clipped-left="$vuetify.breakpoint.lgAndUp"
+    :clipped-left="$vuetify.breakpoint.mdAndUp"
     app
     elevation="1"
     color="white"
