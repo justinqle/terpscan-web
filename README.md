@@ -1,5 +1,7 @@
 # terpscan-web
 
+Website to view packages logged by the iOS terpscan app. Made with Vue and Vuetify.
+
 ## Project setup
 ```
 npm install
