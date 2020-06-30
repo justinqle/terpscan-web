@@ -1,14 +1,18 @@
 <template>
-  <b-navbar spaced shadow>
+  <b-navbar shadow>
     <template slot="brand">
       <b-navbar-item tag="router-link" :to="{ path: '/' }">
-        <img
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcS2BkjifYFuSUOFkExtZB9Hw7IexmsOd957MQ&usqp=CAU"
-          alt="TerpScan logo"
-        />
-      </b-navbar-item>
-      <b-navbar-item tag="router-link" :to="{ path: '/' }">
-        <h1 class="subtitle is-4">TerpScan</h1>
+        <div id="brand">
+          <div id="logo">
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcS2BkjifYFuSUOFkExtZB9Hw7IexmsOd957MQ&usqp=CAU"
+              alt="TerpScan logo"
+            />
+          </div>
+          <div>
+            <h1 class="subtitle is-4">TerpScan</h1>
+          </div>
+        </div>
       </b-navbar-item>
     </template>
     <template slot="start">
@@ -32,5 +36,40 @@
 export default {};
 </script>
 
-<style>
+<style lang="scss">
+@import "~bulma/sass/utilities/_all";
+
+#brand {
+  display: flex;
+  justify-content: center;
+}
+
+#logo {
+  margin-right: 0.5rem;
+}
+
+router-link {
+  cursor: pointer;
+}
+
+@include desktop {
+  .navbar {
+    padding: 0.5rem 5rem;
+  }
+}
+
+@include touch {
+  .navbar {
+    padding: 0.25rem 0.5rem;
+  }
+}
+
+.navbar-start {
+  padding-left: 1.5rem;
+}
+
+a.navbar-item {
+  border-radius: 10px;
+  margin: 6px;
+}
 </style>
