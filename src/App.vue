@@ -28,6 +28,51 @@ export default {
     Table
   }
 };
+
+CloudKit.configure({
+  containers: [
+    {
+      containerIdentifier: process.env.VUE_APP_CONTAINER_ID,
+      apiTokenAuth: {
+        apiToken: process.env.VUE_APP_API_TOKEN
+      },
+      environment: "development"
+    }
+  ]
+});
+
+var container = CloudKit.getDefaultContainer();
+var publicDatabase = container.publicCloudDatabase;
+
+var query = {
+  recordType: "CD_Mailbox",
+  filterBy: [
+    {
+      comparator: "EQUALS",
+      fieldName: "CD_buildingCode",
+      fieldValue: { value: "IRB" }
+    }
+  ]
+};
+
+publicDatabase
+  .performQuery(query)
+  .then(response => {
+    if (response.hasErrors) {
+      // Insert error handling
+      throw response.errors[0];
+    } else {
+      // Insert successfully fetched record code
+      response.records.forEach(record => {
+        console.log(record);
+        console.log(record.fields.CD_firstName.value);
+        console.log(record.fields.CD_lastName.value);
+      });
+    }
+  })
+  .catch(err => {
+    console.error(err);
+  });
 </script>
 
 <style lang="scss">
