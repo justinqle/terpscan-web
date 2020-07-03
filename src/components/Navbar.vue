@@ -22,10 +22,18 @@
     <template slot="end">
       <b-navbar-item tag="div">
         <div class="buttons">
-          <a class="button is-primary">
+          <a
+            v-if="loggedIn === false"
+            href="http://localhost:3000/umd/login"
+            class="button is-primary"
+          >
             <strong>Log in</strong>
           </a>
-          <!-- <a class="button is-light">Log in</a> -->
+          <a
+            v-if="loggedIn === true"
+            href="http://localhost:3000/logout"
+            class="button is-light"
+          >Log out</a>
         </div>
       </b-navbar-item>
     </template>
@@ -33,7 +41,35 @@
 </template>
 
 <script>
-export default {};
+import axios from "axios";
+
+export default {
+  data() {
+    return {
+      loggedIn: null
+    };
+  },
+  created() {
+    this.checkLogin();
+  },
+  methods: {
+    checkLogin() {
+      axios.defaults.withCredentials = true;
+      axios
+        .get("http://localhost:3000/")
+        .then(response => {
+          if (response.data) {
+            this.loggedIn = true;
+          } else {
+            this.loggedIn = false;
+          }
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    }
+  }
+};
 </script>
 
 <style lang="scss">
