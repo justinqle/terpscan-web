@@ -3,72 +3,102 @@
 </template>
 
 <script>
+CloudKit.configure({
+  containers: [
+    {
+      containerIdentifier: process.env.VUE_APP_CONTAINER_ID,
+      apiTokenAuth: {
+        apiToken: process.env.VUE_APP_API_TOKEN
+      },
+      environment: "development"
+    }
+  ]
+});
+const container = CloudKit.getDefaultContainer();
+const publicDatabase = container.publicCloudDatabase;
+
 export default {
   data() {
     return {
-      data: [
-        {
-          id: 1,
-          first_name: "Jesse",
-          last_name: "Simmons",
-          date: "2016-10-15 13:43:27",
-          gender: "Male"
-        },
-        {
-          id: 2,
-          first_name: "John",
-          last_name: "Jacobs",
-          date: "2016-12-15 06:00:53",
-          gender: "Male"
-        },
-        {
-          id: 3,
-          first_name: "Tina",
-          last_name: "Gilbert",
-          date: "2016-04-26 06:26:28",
-          gender: "Female"
-        },
-        {
-          id: 4,
-          first_name: "Clarence",
-          last_name: "Flores",
-          date: "2016-04-10 10:28:46",
-          gender: "Male"
-        },
-        {
-          id: 5,
-          first_name: "Anne",
-          last_name: "Lee",
-          date: "2016-12-06 14:38:38",
-          gender: "Female"
-        }
-      ],
+      data: [],
       columns: [
         {
-          field: "id",
-          label: "ID",
-          width: "40",
-          numeric: true
+          field: "tracking_number",
+          label: "Tracking Number"
         },
         {
-          field: "first_name",
-          label: "First Name"
-        },
-        {
-          field: "last_name",
-          label: "Last Name"
+          field: "carrier",
+          label: "Carrier"
         },
         {
           field: "date",
           label: "Date",
           centered: true
-        },
-        {
-          field: "gender",
-          label: "Gender"
         }
       ]
     };
+  },
+  created() {
+    this.getPackages();
+  },
+  methods: {
+    getPackages() {
+      const currentUser = "Justin Le";
+      const queryUser = {
+        recordType: "CD_Mailbox",
+        filterBy: [
+          {
+            comparator: "EQUALS",
+            fieldName: "CD_firstName",
+            fieldValue: { value: currentUser.split(" ")[0] }
+          },
+          {
+            comparator: "EQUALS",
+            fieldName: "CD_lastName",
+            fieldValue: { value: currentUser.split(" ")[1] }
+          }
+        ]
+      };
+      publicDatabase
+        .performQuery(queryUser)
+        .then(response => {
+          if (response.hasErrors) {
+            throw response.errors[0];
+          } else {
+            if (response.records.length != 1) {
+              throw `${response.records.length} users returned instead of 1 user!`;
+            }
+            const userUUID = response.records[0].recordName;
+            const queryPackages = {
+              recordType: "CD_Package",
+              filterBy: [
+                {
+                  comparator: "EQUALS",
+                  fieldName: "CD_recipient",
+                  fieldValue: { value: userUUID }
+                }
+              ]
+            };
+            return publicDatabase.performQuery(queryPackages);
+          }
+        })
+        .then(response => {
+          if (response.hasErrors) {
+            throw response.errors[0];
+          } else {
+            this.data = response.records.map(record => {
+              return {
+                tracking_number: record.fields.CD_trackingNumber.value,
+                carrier: record.fields.CD_carrier.value,
+                date: record.fields.CD_timestamp.value
+              };
+            });
+          }
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    }
   }
 };
 </script>
