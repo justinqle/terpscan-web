@@ -1,8 +1,6 @@
 # terpscan-web
 
-Website to view packages logged by the [iOS TerpScan app](https://github.com/justinqle/terpscan). Made with [Vue](https://vuejs.org) and [Buefy](https://buefy.org) / [Bulma](https://bulma.io).
-
-Soon to be integrated with [CloudKit JS](https://developer.apple.com/documentation/cloudkitjs).
+Website to view packages logged by the [iOS TerpScan app](https://github.com/justinqle/terpscan) through the use of [CloudKit JS](https://developer.apple.com/documentation/cloudkitjs). Made with [Vue](https://vuejs.org) and [Buefy](https://buefy.org) / [Bulma](https://bulma.io).
 
 ## Project setup
 ```
