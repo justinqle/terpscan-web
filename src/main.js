@@ -1,14 +1,14 @@
-import Vue from 'vue'
-import App from './App.vue'
-import Buefy from 'buefy'
-import axios from 'axios'
+import Vue from "vue";
+import App from "./App.vue";
+import Buefy from "buefy";
+import axios from "axios";
 
-axios.defaults.withCredentials = true
+axios.defaults.withCredentials = true;
 
-Vue.use(Buefy)
+Vue.use(Buefy);
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 new Vue({
-  render: h => h(App),
-}).$mount('#app')
+  render: (h) => h(App),
+}).$mount("#app");

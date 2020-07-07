@@ -33,7 +33,8 @@
             v-if="loggedIn === true"
             href="http://localhost:3000/logout"
             class="button is-light"
-          >Log out</a>
+            >Log out</a
+          >
         </div>
       </b-navbar-item>
     </template>
@@ -46,7 +47,7 @@ import axios from "axios";
 export default {
   data() {
     return {
-      loggedIn: null
+      loggedIn: null,
     };
   },
   created() {
@@ -56,18 +57,18 @@ export default {
     checkLogin() {
       axios
         .get("http://localhost:3000/")
-        .then(response => {
+        .then((response) => {
           if (response.data) {
             this.loggedIn = true;
           } else {
             this.loggedIn = false;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.error(err);
         });
-    }
-  }
+    },
+  },
 };
 </script>
 

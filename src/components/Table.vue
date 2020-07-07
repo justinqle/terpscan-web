@@ -12,18 +12,18 @@ export default {
       columns: [
         {
           field: "tracking_number",
-          label: "Tracking Number"
+          label: "Tracking Number",
         },
         {
           field: "carrier",
-          label: "Carrier"
+          label: "Carrier",
         },
         {
           field: "date",
           label: "Date",
-          centered: true
-        }
-      ]
+          centered: true,
+        },
+      ],
     };
   },
   created() {
@@ -33,15 +33,15 @@ export default {
     getPackages() {
       axios
         .get("http://localhost:3000/packages")
-        .then(response => {
+        .then((response) => {
           if (response.data) {
             this.data = response.data;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.error(err);
         });
-    }
-  }
+    },
+  },
 };
 </script>
