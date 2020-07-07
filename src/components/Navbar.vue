@@ -24,7 +24,7 @@
         <div class="buttons">
           <a
             v-if="loggedIn === false"
-            href="http://localhost:3000/umd/login"
+            href="http://localhost:3000/login"
             class="button is-primary"
           >
             <strong>Log in</strong>
@@ -54,7 +54,6 @@ export default {
   },
   methods: {
     checkLogin() {
-      axios.defaults.withCredentials = true;
       axios
         .get("http://localhost:3000/")
         .then(response => {

@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import App from './App.vue'
 import Buefy from 'buefy'
+import axios from 'axios'
+
+axios.defaults.withCredentials = true
 
 Vue.use(Buefy)
 
