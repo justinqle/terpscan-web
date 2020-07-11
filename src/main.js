@@ -5,7 +5,9 @@ import axios from "axios";
 
 axios.defaults.withCredentials = true;
 
-Vue.use(Buefy);
+Vue.use(Buefy, {
+  defaultIconPack: "fas",
+});
 
 Vue.config.productionTip = false;
 

@@ -1,5 +1,34 @@
 <template>
-  <b-table :data="data" :columns="columns"></b-table>
+  <div>
+    <b-table
+      :data="data"
+      :loading="isLoading"
+      default-sort="date"
+      default-sort-direction="desc"
+    >
+      <template slot-scope="props">
+        <b-table-column field="tracking_number" label="Tracking Number">
+          {{ props.row.tracking_number }}
+        </b-table-column>
+        <b-table-column field="carrier" label="Carrier">
+          {{ props.row.carrier }}
+        </b-table-column>
+        <b-table-column field="date" label="Date Received" sortable centered>
+          {{ new Date(props.row.date).toLocaleString() }}
+        </b-table-column>
+      </template>
+      <template slot="empty" v-if="!isLoading">
+        <section class="section">
+          <div class="content has-text-grey has-text-centered">
+            <p>
+              <b-icon icon="sad-cry" size="is-large"> </b-icon>
+            </p>
+            <p>No packages available.</p>
+          </div>
+        </section>
+      </template>
+    </b-table>
+  </div>
 </template>
 
 <script>
@@ -9,21 +38,7 @@ export default {
   data() {
     return {
       data: [],
-      columns: [
-        {
-          field: "tracking_number",
-          label: "Tracking Number",
-        },
-        {
-          field: "carrier",
-          label: "Carrier",
-        },
-        {
-          field: "date",
-          label: "Date",
-          centered: true,
-        },
-      ],
+      isLoading: true,
     };
   },
   created() {
@@ -37,6 +52,7 @@ export default {
           if (response.data) {
             this.data = response.data;
           }
+          this.isLoading = false;
         })
         .catch((err) => {
           console.error(err);
