@@ -5,6 +5,7 @@
       :loading="isLoading"
       default-sort="date"
       default-sort-direction="desc"
+      paginated
     >
       <template slot-scope="props">
         <b-table-column field="tracking_number" label="Tracking Number">
@@ -52,11 +53,11 @@ export default {
           if (response.data) {
             this.data = response.data;
           }
-          this.isLoading = false;
         })
         .catch((err) => {
           console.error(err);
-        });
+        })
+        .finally(() => (this.isLoading = false));
     },
   },
 };

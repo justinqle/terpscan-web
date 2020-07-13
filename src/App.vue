@@ -36,7 +36,7 @@ export default {
 @import "~bulma/sass/layout/hero.sass";
 
 // Set your colors
-$primary: #ff4757;
+$primary: #E61B23;
 $primary-invert: findColorInvert($primary);
 $twitter: #4099ff;
 $twitter-invert: findColorInvert($twitter);
