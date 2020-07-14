@@ -62,3 +62,14 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+@import "~bulma/sass/utilities/_all";
+
+@include widescreen {
+  .b-table {
+    padding-left: 15%;
+    padding-right: 15%;
+  }
+}
+</style>

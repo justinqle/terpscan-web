@@ -1,39 +1,36 @@
 <template>
-  <b-navbar shadow>
+  <b-navbar>
     <template slot="brand">
       <b-navbar-item tag="router-link" :to="{ path: '/' }">
         <div id="brand">
           <div id="logo">
-            <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcS2BkjifYFuSUOFkExtZB9Hw7IexmsOd957MQ&usqp=CAU"
-              alt="TerpScan logo"
-            />
+            <img src="@/assets/icon.png" alt="TerpScan icon" />
           </div>
           <div>
-            <h1 class="subtitle is-4">TerpScan</h1>
+            <h1 class="title">terpscan</h1>
           </div>
         </div>
       </b-navbar-item>
     </template>
-    <template slot="start">
+    <template slot="end">
       <b-navbar-item href="#" active>Home</b-navbar-item>
       <b-navbar-item href="#">About</b-navbar-item>
-    </template>
-    <template slot="end">
       <b-navbar-item tag="div">
         <div class="buttons">
-          <a
+          <b-button
             v-if="loggedIn === false"
+            tag="a"
             href="http://localhost:3000/login"
-            class="button is-primary"
+            type="is-primary"
+            >Log in</b-button
           >
-            <strong>Log in</strong>
-          </a>
-          <a
+          <b-button
             v-if="loggedIn === true"
+            tag="a"
             href="http://localhost:3000/logout"
-            class="button is-light"
-            >Log out</a
+            type="is-primary"
+            outlined
+            >Log out</b-button
           >
         </div>
       </b-navbar-item>
@@ -42,32 +39,9 @@
 </template>
 
 <script>
-import axios from "axios";
-
 export default {
-  data() {
-    return {
-      loggedIn: null,
-    };
-  },
-  created() {
-    this.checkLogin();
-  },
-  methods: {
-    checkLogin() {
-      axios
-        .get("http://localhost:3000/")
-        .then((response) => {
-          if (response.data) {
-            this.loggedIn = true;
-          } else {
-            this.loggedIn = false;
-          }
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    },
+  props: {
+    loggedIn: Boolean,
   },
 };
 </script>
@@ -90,22 +64,15 @@ router-link {
 
 @include desktop {
   .navbar {
-    padding: 0.5rem 5rem;
+    padding-left: 10%;
+    padding-right: 10%;
   }
 }
 
 @include touch {
   .navbar {
-    padding: 0.25rem 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
-}
-
-.navbar-start {
-  padding-left: 1.5rem;
-}
-
-a.navbar-item {
-  border-radius: 10px;
-  margin: 6px;
 }
 </style>

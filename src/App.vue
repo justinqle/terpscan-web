@@ -1,17 +1,21 @@
 <template>
   <div id="app">
-    <Navbar />
-    <section class="section">
-      <div class="container">
-        <h1 class="title">Hi Justin,</h1>
-        <h2 class="subtitle">
-          you have
-          <strong>3</strong> packages ready for pickup.
-        </h2>
-      </div>
-      <br />
-      <div class="container">
-        <Table />
+    <Navbar :loggedIn="loggedIn" />
+    <Landing v-if="loggedIn === false" />
+    <section class="hero is-fullheight-with-navbar" v-if="loggedIn === true">
+      <div class="hero-head">
+        <div class="container has-text-centered">
+          <h1 class="title">Hi Justin,</h1>
+          <h2 class="subtitle">
+            you have
+            <strong class="has-text-primary">3</strong> packages ready for
+            pickup.
+          </h2>
+        </div>
+        <br />
+        <div class="container">
+          <Table />
+        </div>
       </div>
     </section>
   </div>
@@ -19,13 +23,40 @@
 
 <script>
 import Navbar from "./components/Navbar.vue";
+import Landing from "./components/Landing.vue";
 import Table from "./components/Table.vue";
+import axios from "axios";
 
 export default {
   name: "App",
   components: {
     Navbar,
+    Landing,
     Table,
+  },
+  data() {
+    return {
+      loggedIn: null,
+    };
+  },
+  created() {
+    this.checkLogin();
+  },
+  methods: {
+    checkLogin() {
+      axios
+        .get("http://localhost:3000/")
+        .then((response) => {
+          if (response.data) {
+            this.loggedIn = true;
+          } else {
+            this.loggedIn = false;
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    },
   },
 };
 </script>
@@ -35,8 +66,31 @@ export default {
 @import "~bulma/sass/utilities/_all";
 @import "~bulma/sass/layout/hero.sass";
 
+/* CSS customization */
+
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  color: #2c3e50;
+}
+
+.hero-head {
+  padding: 2rem 1.5rem 0rem 1.5rem;
+}
+
+@include desktop {
+  section {
+    margin-left: 8rem;
+    margin-right: 8rem;
+  }
+}
+
+/* SCSS customization */
+
+$navbar-breakpoint: $tablet !default;
+$navbar-height: 5rem !default;
+
 // Set your colors
-$primary: #E61B23;
+$primary: #e61b23;
 $primary-invert: findColorInvert($primary);
 $twitter: #4099ff;
 $twitter-invert: findColorInvert($twitter);
@@ -90,27 +144,7 @@ $link: $primary;
 $link-invert: $primary-invert;
 $link-focus-border: $primary;
 
-$navbar-item-active-color: #ff4757 !default;
-$navbar-breakpoint: $tablet !default;
-
-// $section-padding: 3rem 12rem !default;
-@include desktop {
-  section {
-    margin-left: 12rem;
-    margin-right: 12rem;
-  }
-}
-
 // Import Bulma and Buefy styles
 @import "~bulma";
 @import "~buefy/src/scss/buefy";
-
-// #app {
-//   font-family: Avenir, Helvetica, Arial, sans-serif;
-//   -webkit-font-smoothing: antialiased;
-//   -moz-osx-font-smoothing: grayscale;
-//   text-align: center;
-//   color: #2c3e50;
-//   margin-top: 60px;
-// }
 </style>
